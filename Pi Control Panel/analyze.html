@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Control Panel</title>
+	<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+   	<script src="http://code.highcharts.com/highcharts.js"></script> 
+	<script src="http://dweet.io/client/dweet.io.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body id="main-body">
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">Control Panel</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+      </ul>
+      <!-- <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Sign up <i class="fa fa-user-plus"></i></a></li>
+        <li><a href="#">Log in <i class="fa fa-user"></i></a></li>
+       
+      </ul> -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+  <div class="container" id="space">
+    
+  </div>
+
+  <div class="row text-center">
+    <h1>Charts</h1>
+  </div>
+<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+<div id="containerTwo" style="width: 800px; height: 400px; margin: 0 auto"></div>
+<div id="containerThree" style="width: 800px; height: 400px; margin: 0 auto"></div>
+<div id="containerFour" style="width: 800px; height: 400px; margin: 0 auto"></div>
+<script language="JavaScript">
+//array to store data
+var data = []
+var dataTwo = []
+var dataThree = []
+var dataFour = []
+
+//array to load local store data
+var localDataTemperature = []
+var localDataHumidity = []
+var localDataButton = []
+var localDataLed
+
+array_for_cats = []
+array_for_catsTwo = []
+array_for_catsThree = []
+array_for_catsFour = []
+
+$(document).ready(function() {  
+	var name = 'therapeutic-caption'
+	
+   var chart= {
+      type: 'spline',
+	  animation: Highcharts.svg, // don't animate in IE < IE 10.
+      marginRight: 10,
+   };
+   var chartTwo= {
+      type: 'spline',
+	  animation: Highcharts.svg, // don't animate in IE < IE 10.
+      marginRight: 10,
+   };
+   var chartThree= {
+      type: 'spline',
+	  animation: Highcharts.svg, // don't animate in IE < IE 10.
+      marginRight: 10,
+   };
+   var chartFour= {
+      type: 'spline',
+	  animation: Highcharts.svg, // don't animate in IE < IE 10.
+      marginRight: 10,
+   };
+   
+   var title = {
+      text: 'Temperature'   
+   };   
+   var titleTwo = {
+      text: 'Humidity'   
+   };
+   var titleThree = {
+      text: 'Button'   
+   };   
+    var titleFour = {
+      text: 'LED'   
+   }; 
+   
+   var xAxis = {
+      type: 'datetime',
+      tickPixelInterval: 150
+   };
+    var xAxisTwo = {
+      type: 'datetime',
+      tickPixelInterval: 150
+   };
+   var xAxisThree = {
+      type: 'datetime',
+      tickPixelInterval: 150
+   };
+   var xAxisFour = {
+      type: 'datetime',
+      tickPixelInterval: 150
+   };
+   var yAxis = {
+      title: {
+         text: 'Value'
+      },
+      plotLines: [{
+         value: 0,
+         width: 1,
+         color: '#808080'
+      }]
+   };
+    var yAxisTwo = {
+      title: {
+         text: 'Value'
+      },
+      plotLines: [{
+         value: 0,
+         width: 1,
+         color: '#808080'
+      }]
+   };
+    var yAxisThree = {
+      title: {
+         text: 'Value'
+      },
+      plotLines: [{
+         value: 0,
+         width: 1,
+         color: '#808080'
+      }]
+   };
+   var yAxisFour = {
+      title: {
+         text: 'Value'
+      },
+      plotLines: [{
+         value: 0,
+         width: 1,
+         color: '#808080'
+      }]
+   };
+   
+   var tooltip = {
+      formatter: function () {
+      return '<b>' + this.series.name + '</b><br/>' +
+         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+         Highcharts.numberFormat(this.y, 2);
+      }
+   };
+   var tooltipTwo = {
+      formatter: function () {
+      return '<b>' + this.series.name + '</b><br/>' +
+         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+         Highcharts.numberFormat(this.y, 2);
+      }
+   };
+   var tooltipThree = {
+      formatter: function () {
+      return '<b>' + this.series.name + '</b><br/>' +
+         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+         Highcharts.numberFormat(this.y, 2);
+      }
+   };
+    var tooltipFour = {
+      formatter: function () {
+      return '<b>' + this.series.name + '</b><br/>' +
+         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+         Highcharts.numberFormat(this.y, 2);
+      }
+   };
+   var plotOptions = {
+      area: {
+         pointStart: 1940,
+         marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 2,
+            states: {
+               hover: {
+                 enabled: true
+               }
+            }
+         }
+      }
+   };
+    var plotOptionsTwo = {
+      area: {
+         pointStart: 1940,
+         marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 2,
+            states: {
+               hover: {
+                 enabled: true
+               }
+            }
+         }
+      }
+   };
+   var plotOptionsThree = {
+      area: {
+         pointStart: 1940,
+         marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 2,
+            states: {
+               hover: {
+                 enabled: true
+               }
+            }
+         }
+      }
+   };
+   var plotOptionsFour = {
+      area: {
+         pointStart: 1940,
+         marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 2,
+            states: {
+               hover: {
+                 enabled: true
+               }
+            }
+         }
+      }
+   };
+   var legend = {
+      enabled: false
+   };
+   var legendTwo = {
+      enabled: false
+   };
+   var legendThree = {
+      enabled: false
+   };
+   var legendFour = {
+      enabled: false
+   };
+   var exporting = {
+      enabled: false
+   };
+   var exportingTwo = {
+      enabled: false
+   };
+   var exportingThree = {
+      enabled: false
+   };
+   var exportingFour = {
+      enabled: false
+   };
+
+
+   var series = []
+   var seriesTwo = []
+   var seriesThree = []
+   var seriesFour = []
+
+	dweetio.get_all_dweets_for(name, function(err, dweets){
+		console.log(err)
+	    for(theDweet in dweets.reverse())
+	    {
+	        var dweet = dweets[theDweet];
+
+	        val = dweet.content["temperature"]
+			data.push(parseInt(val))
+			array_for_cats.push(dweet.created)
+	    }
+		console.log(data)
+		for(theDweet in dweets.reverse())
+	    {
+	        var dweetTwo = dweets[theDweet];
+
+	        valTwo = dweetTwo.content["humidity"]
+			dataTwo.push(parseInt(valTwo))
+			array_for_cats.push(dweetTwo.created)
+	    }
+		console.log(dataTwo)
+		for(theDweet in dweets.reverse())
+	    {
+	        var dweetThree = dweets[theDweet];
+
+	        valThree = dweetThree.content["button"]
+			dataThree.push(parseInt(valThree))
+			array_for_cats.push(dweetThree.created)
+	    }
+		console.log(dataThree)
+		for(theDweet in dweets.reverse())
+	    {
+	        var dweetFour = dweets[theDweet];
+
+	        valFour = dweetFour.content["LED"]
+			dataFour.push(parseInt(valFour))
+			array_for_cats.push(dweetFour.created)
+	    }
+		console.log(dataFour)
+		
+		series= [{
+	      name: 'Temperature',
+	      data: data   
+	   }]
+	   
+	   seriesTwo= [{
+	      name: 'Humidity',
+	      data: dataTwo   
+	   }]
+	   
+	    seriesThree= [{
+	      name: 'Button',
+	      data: dataThree
+	   }]
+	   
+	  seriesFour= [{
+	      name: 'LED',
+	      data: dataFour
+	   }]
+
+	   var json = {};   
+	   json.chart = chart; 
+	   json.title = title;     
+	   json.tooltip = tooltip;
+	   json.xAxis = xAxis;
+	   json.yAxis = yAxis; 
+	   json.legend = legend;  
+	   json.exporting = exporting;   
+	   json.series = series;
+	   json.plotOptions = plotOptions;
+
+	   var jsonTwo = {};   
+	   jsonTwo.chart = chartTwo; 
+	   jsonTwo.title = titleTwo;     
+	   jsonTwo.tooltip = tooltipTwo;
+	   jsonTwo.xAxis = xAxisTwo;
+	   jsonTwo.yAxis = yAxisTwo; 
+	   jsonTwo.legend = legendTwo;  
+	   jsonTwo.exporting = exportingTwo;   
+	   jsonTwo.series = seriesTwo;
+	   jsonTwo.plotOptions = plotOptionsTwo;
+	   
+	   var jsonThree = {};   
+	   jsonThree.chart = chartThree; 
+	   jsonThree.title = titleThree;     
+	   jsonThree.tooltip = tooltipThree;
+	   jsonThree.xAxis = xAxisThree;
+	   jsonThree.yAxis = yAxisThree; 
+	   jsonThree.legend = legendThree;  
+	   jsonThree.exporting = exportingThree   
+	   jsonThree.series = seriesThree;
+	   jsonThree.plotOptions = plotOptionsThree;
+	   
+	   var jsonFour = {};   
+	   jsonFour.chart = chartFour; 
+	   jsonFour.title = titleFour;     
+	   jsonFour.tooltip = tooltipFour;
+	   jsonFour.xAxis = xAxisFour;
+	   jsonFour.yAxis = yAxisFour; 
+	   jsonFour.legend = legendFour;  
+	   jsonFour.exporting = exportingFour   
+	   jsonFour.series = seriesFour;
+	   jsonFour.plotOptions = plotOptionsFour;
+
+	   Highcharts.setOptions({
+	      global: {
+	         useUTC: false
+	      }
+	   });
+	   $('#container').highcharts(json);
+		chart = $('#container').highcharts()
+		chart.xAxis[0].update({categories: array_for_cats}, true);
+		
+		$('#containerTwo').highcharts(jsonTwo);
+		chartTwo = $('#containerTwo').highcharts()
+		chart.xAxis[0].update({categories: array_for_cats}, true);
+
+	$('#containerThree').highcharts(jsonThree);
+		chartThree = $('#containerThree').highcharts()
+		chart.xAxis[0].update({categories: array_for_cats}, true);
+		
+		$('#containerFour').highcharts(jsonFour);
+		chartFour = $('#containerFour').highcharts()
+		chart.xAxis[0].update({categories: array_for_cats}, true);
+	});
+	
+	//gathers all dweets
+	dweetio.listen_for(name, function(dweet){
+	        val = dweet.content["temperature"]
+			console.log("happened")	 
+			var chart = $('#container').highcharts();
+			chart.series[0].addPoint(parseInt(val));  
+			array_for_cats.push(dweet.created) 
+			chart.xAxis[0].update({categories: array_for_cats}, true);
+			//Stores values into html5 local storage
+			storeLocalChartData()
+	});
+	dweetio.listen_for(name, function(dweetTwo){
+	        valTwo = dweetTwo.content["humidity"]
+			console.log("happened")	 
+			var chartTwo = $('#containerTwo').highcharts();
+			chartTwo.series[0].addPoint(parseInt(valTwo));  
+			array_for_cats.push(dweetTwo.created) 
+			chart.xAxis[0].update({categories: array_for_cats}, true);
+			//Stores values into html5 local storage
+			storeLocalChartData()
+	});
+			  
+	dweetio.listen_for(name, function(dweetThree){
+	        valThree = dweetThree.content["button"]
+			console.log("happened")	 
+			var chartThree = $('#containerThree').highcharts();
+			chartThree.series[0].addPoint(parseInt(valThree));  
+			array_for_cats.push(dweetThree.created) 
+			chart.xAxis[0].update({categories: array_for_cats}, true);
+			//Stores values into html5 local storage
+			storeLocalChartData()
+	});
+	dweetio.listen_for(name, function(dweetFour){
+	        valFour = dweetFour.content["LED"]
+			console.log("happened")	 
+			var chartFour = $('#containerFour').highcharts();
+			chartFour.series[0].addPoint(parseInt(valFour));  
+			array_for_cats.push(dweetFour.created) 
+			chart.xAxis[0].update({categories: array_for_cats}, true);
+			//Stores values into html5 local storage
+			storeLocalChartData()
+	});
+	
+	//store data values into html5 local storage
+	var storeLocalChartData = function(){
+	
+		//check the browser to see if it supports
+		if(typeof(Storage) !== "undefined"){
+			//browser supports local storage
+			console.log("Your browser allows local storage data to be saved")			
+			//load previously saved local data
+			localDataTemperature = JSON.parse(localStorage.getItem("temperature"));
+			localDataHumidity = JSON.parse(localStorage.getItem("humidity"));
+			localDataButton = JSON.parse(localStorage.getItem("button"));
+			localDataLed = JSON.parse(localStorage.getItem("LED"));
+			
+			//temp arrays to store data
+			var storeDataTemperature = []
+			var storeDataHumidity = []
+			var storeDataButton = []
+			var storeDataLed = []
+			
+			//temperature
+			if(localDataTemperature != null && localDataTemperature.length > 0){
+				storeDataTemperature = localDataTemperature.concat(data);
+			}
+			else{
+				storeDataTemperature = data
+			}
+			
+			//humidity
+			if(localDataHumidity != null && localDataHumidity.length > 0){
+				storeDataHumidity = localDataHumidity.concat(dataTwo);
+			}
+			else{
+				storeDataHumidity = dataTwo
+			}
+			
+			//button
+			if(localDataButton != null && localDataButton.length > 0){
+				storeDataButton = localDataButton.concat(dataThree);
+			}
+			else{
+				storeDataButton = dataThree
+			}
+			
+			//led
+			if(localDataLed != null && localDataLed.length > 0){
+				storeDataLed = localDataLed.concat(dataFour);
+			}
+			else{
+				storeDataLed = dataFour
+			}
+			
+			//only last 100 values are stored 
+			while(storeDataTemperature.length > 100){
+				storeDataTemperature.shift();
+			}
+			
+			while(storeDataHumidity.length > 100){
+				storeDataHumidity.shift();
+			}
+			
+			while(storeDataButton.length > 100){
+				storeDataButton.shift();
+			}
+			
+			while(storeDataLed.length > 100){
+				storeDataLed.shift();
+			}
+			
+			//local storage values & results
+			localStorage.setItem("temperature", JSON.stringify(storeDataTemperature));
+			localStorage.setItem("humidity", JSON.stringify(storeDataHumidity));
+			localStorage.setItem("button", JSON.stringify(storeDataButton));
+			localStorage.setItem("LED", JSON.stringify(storeDataLed));
+			
+			//ensure data is store by printing to console
+			console.log("temperature " + JSON.stringify(storeDataTemperature) + " stored succesfully.")
+			console.log("humidity " + JSON.stringify(storeDataHumidity) + " stored succesfully.")
+			console.log("button " + JSON.stringify(storeDataButton) + " stored succesfully.")
+			console.log("LED " + JSON.stringify(storeDataLed) + " stored succesfully.")
+			}
+			else{
+				//browser cant store data
+				console.log("Browser does not support local storage.")
+			}
+		}
+			
+});
+
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script>
+
+</script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
+</html>
